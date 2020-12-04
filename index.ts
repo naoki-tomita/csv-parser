@@ -21,13 +21,13 @@ function removeQuote(head: string): string {
 export function parse(text: string): {[key: string]: boolean | number | string | null}[] {
   const keys = text.trim()
     .split("\n")[0]
-    .match(/"[^"]*"|[^,]+/g)
+    .match(/"[^"]*"|[^,]+/g)!
     .map(it => it.trim())
     .map(removeQuote);
   return text.trim()
     .split("\n").slice(1)
     .map(it => it.trim())
     .map(it => it.match(/"[^"]*"|[^,]+/g))
-    .map(it => it.map(cell => cell.trim()))
+    .map(it => it!.map(cell => cell.trim()))
     .map(it => it.reduce((prev, next, i) => ({ ...prev, [keys[i]]: toValue(next) }), {}));
 }
